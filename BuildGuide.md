@@ -22,12 +22,37 @@ seems simple. It seems you can browse products to upload.
 Step 3: Add to both the product section and collection section.
 Step 4:Create subfolders: A theme is made up of 7 folders
 --assets(images,styles,javascript)files
+style.css.liquid
+scripts.js.liquid
+img.jpg
+----
+
 --config(global theme settings(settings_schema.json))
+
 --layout(theme.liquid)can hold other .liquid files but theme.liquid file is required.
+
 --locales(holds translations)Will automatically translate store language when being used in another language.
---sections
---snippets
---templates
+
+--sections(partials with settings gives you the ability to add sections to your)
+
+--snippets()
+header.liquid
+----
+
+--templates(12files)
+Holds liquid files:
+404.liquid
+article.liquid
+blog.liquid
+cart.liquid
+collection.liquid
+giftcard.liquid
+list-collections.liquid
+page.liquid
+password.liquid
+product.liquid
+index.liquid
+search.liquid
 ----
 File general storage
 layout folder-theme.liquid
@@ -50,3 +75,44 @@ If installed correctly, updates will be automatically applied to your shopify st
 
 step 5. Add index.liquid file to template folder.
 This will generate original test message.
+---liquid--
+{% comment %} Add image {% endcomment %}
+<img src="{{'puppy.jpg' alt="Puppy picture" |asset_url}}"/>
+--end--
+--liquid--
+{% comment %} Link style sheet {% endcomment %}
+{{'../assets/style.css'|asset_url | stylesheet_tag}}
+--end--
+--liquid--
+{% comment %} Render header partial located in the snippets folder
+The snippet folder contains partials of certain elements and are rendered as a tag{% render 'file.liquid'%}.This must be rendered from the index.liquid file.
+ {% endcomment %}
+{%render 'header'%}
+--end--
+--Note--
+Note:liquid objects that can be rendered are located:
+https://shopify.dev/docs/api/liquid/objects -- 
+--end Note
+--Note--
+Each file that is located in dev folders seem to have an object that corresponds to that file name. Example:the template folder contains a giftcard.liquid file, this file has an object
+ {%- assign formatted_balance = gift_card.balance | money_without_trailing_zeros | strip_html -%}
+--endNote--
+--Note--
+accessing objects and property format
+{{shop.name}}--where as shop is the object and name is the
+property. This will allow us to obtain a name instead of hard
+coding one.
+--endNote--
+--liquid--
+Note:when working with the main menu, the object is linklists--
+The below code loops through the items in the list and produces its title.Wrapping each link in li tags seperates them from top to bottom.
+<!-- Main menu -->
+<ul>
+{% for link in linklists.main-menu.links -%}
+  <li>{{ link.title | link_to: link.url }}</li>
+{%- endfor %}
+</ul>
+
+
+
+--end liquid--

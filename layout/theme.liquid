@@ -2,9 +2,15 @@
 <head>
 {% comment %} Tag that allows scripts and plugins to be added to your theme{% endcomment %}
 {{content_for_header}}
+{% comment %} Link style sheet {% endcomment %}
+{{'../assets/style.css'|asset_url | stylesheet_tag}}
 </head>
 <body>
+{% comment %} Render header partial located in the snippets folder {% endcomment %}
+{%render 'header'%}
+
 {% comment %} Tag that allows for template data to be plugged in {% endcomment %}
 {{content_for_layout}}
+{{'scripts.js'|asset_url | script_tag}}
 </body>
 </html>
